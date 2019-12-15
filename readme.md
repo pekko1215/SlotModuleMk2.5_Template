@@ -1,4 +1,7 @@
 # SlotModuleMk2.5
+## サンプル台
+[ココ](https://pekko1215.github.io/SlotModuleMk2.5_Template/index.html)から遊べます。
+
 ## パチスロを作ろう(雑なチュートリアル)
 ### 1.はじめに
 このテンプレートは、4号機ノーマル(ボーナスのみで出玉を増やす台)です。  
