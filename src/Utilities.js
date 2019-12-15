@@ -35,7 +35,7 @@ const FlipMatrix = (base) => {
 }
 
 const ReplaceMatrix = (base, matrix, front, back) => {
-    let out = JSON.parse(JSON.stringify(base));
+    let out = Object.assign(base, {});
     matrix.forEach(function(m, i) {
         m.forEach(function(g, j) {
             if (g == 1) {

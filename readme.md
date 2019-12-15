@@ -59,3 +59,54 @@ src/Effect.jsを編集します。
 SyotoEffectに、簡単な消灯と予告音の処理を記述します。
 サンプルがあるので、確率をいじるだけでもオリジナリティが出ますね。  
 私はサンダーV2を思い出しました。
+
+## 便利関数
+### Sleep(ms)
+ - msミリ秒停止します。async関数なのでawaitと一緒に使おうね
+ - 例(払い出し後、3秒フリーズ)
+```javascript
+slotModule.once('payEnd',async ()=>{
+    slotModule.freeze();
+    await Sleep(3000); // 3秒待ちます
+    slotModule.resume();
+})
+```
+
+### ArrayLot([v1,v2,v3,...])
+ - v1+v2+v3+..個のくじを引き、当選したインデックスを返します。
+ - 振り分け作るときに便利
+ - 例(制御振り分け)
+```javascript
+ret = ['BIG1','BIG2','BIG3'][ArrayLot([60,30,10])];
+/**  
+ *  BIG1 60%
+ *  BIG2 30%
+ *  BIG3 10%
+ *   で制御を振り分ける。
+ **/
+```
+
+### ContinueLot(r)
+ - 確率rで継続抽選を行う。
+ - 1とか引数にするとぶっ壊れるからやめようね
+ - 例(50%のループストック抽選)
+```javascript
+stock++; // 最低保証
+stock += ContinueLot(1/2); // 50%ループ
+```
+
+### Rand(m, n = 0)
+ - n ~ (n + m-1)までの整数乱数を発生させる。
+ - Rand(4)のように書くと、0~3までの乱数を返す
+ - !0がtrueになることを利用し、簡易的な抽選にも使用できる
+ - 例(1/3で特殊演出を発生させる)
+
+```javascript
+if(!rand(3)){
+ // 特殊演出を書く
+}
+```
+
+### ReplaceMatrix(base, matrix, front, back)
+ - baseのフラッシュの、matrixが示す箇所に、flashとbackを適用させる。
+ - 成立役フラッシュ用の関数なので、直接使う機会はないかも
