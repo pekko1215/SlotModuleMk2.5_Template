@@ -1,0 +1,128 @@
+@font-face {
+    src: url("img/V-GERB\(bold\).ttf");
+    font-family: "V-GERB";
+}
+
+body {
+    margin: 0;
+    /* font-family: "V-GERB"; */
+}
+
+#pixiview {
+    left: 118px;
+    top: 39px;
+    position: absolute;
+}
+
+#creditSegment {
+    position: absolute;
+    left: 42px;
+    top: 343px;
+    width: 131px;
+    height: 74px;
+    z-index: 10;
+}
+
+#paySegment {
+    position: absolute;
+    left: 207px;
+    top: 343px;
+    width: 131px;
+    height: 74px;
+    z-index: 10;
+}
+
+#effectSegment {
+    position: absolute;
+    left: 717px;
+    top: 343px;
+    height: 62px;
+    width: 80px;
+    z-index: 10;
+}
+
+.GameData {
+    position: absolute;
+    background-color: black;
+    color: white;
+    left: calc(939px - 200px);
+    top: 0;
+    width: 200px;
+    font-size: 10pt;
+    z-index: 8;
+}
+
+table {
+    border: double;
+}
+
+td,
+tr,
+th {
+    border: solid 1px;
+}
+
+#kokuti {
+    position: absolute;
+    left: 396px;
+    top: -55px;
+}
+
+.lamp {
+    filter: grayscale(100%);
+    transition: filter 0.2s;
+}
+
+.lamp.show {
+    filter: grayscale(0%);
+}
+
+.lamp.show.rainbow {
+    animation: rainbow-flash 0.5s infinite;
+}
+
+#panel {
+    z-index: 5;
+    position: relative;
+}
+
+#dataCounter {
+    min-height: 146px;
+    display: flex;
+    flex-flow: row-reverse;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+#dataCounter .tower {
+    margin-top: 8px;
+    width: 32px;
+    vertical-align: bottom;
+    display: inline-block;
+    margin-right: 2px;
+}
+
+#dataCounter .floor.red {
+    background: darkred;
+}
+
+#dataCounter .floor.green {
+    background: darkgreen;
+}
+
+#dataCounter .tower .floor {
+    width: 100%;
+    height: 8px;
+    margin-bottom: 3px;
+}
+
+#dataCounter .tower .type {
+    text-align: center;
+    font-size: 11pt;
+    border-top: solid 1px;
+}
+
+#dataCounter .tower .count {
+    text-align: center;
+    font-size: 11pt;
+}
