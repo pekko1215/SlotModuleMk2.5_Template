@@ -617,7 +617,6 @@ class SlotModuleMk2 extends SlotEventListener {
                 } else {
                     await this.onBetReset();
                 }
-                this.emit("pay", hitYaku);
         }
     }
     async onPay(hitYaku) {

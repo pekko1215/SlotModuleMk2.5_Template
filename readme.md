@@ -60,6 +60,110 @@ SyotoEffectに、簡単な消灯と予告音の処理を記述します。
 サンプルがあるので、確率をいじるだけでもオリジナリティが出ますね。  
 私はサンダーV2を思い出しました。
 
+## SlotModuleMk2.5で用意されている関数など
+
+### freeze()
+ - SlotModuleの一切の動作を行えなくします。
+ - 必ずresumeで開放してあげてください。かわいそうです。
+ 
+### resume()
+ - freezeを開放します。
+ - freezeとセットで使おうね
+
+### on(event,fn)
+ - eventが発生するたび、fnを実行します。
+ - eventは「SlotModuleのイベント一覧」を参照
+ - 例(レバーオン時に音を鳴らす)
+```javascript
+slotModule.on("reelStart", async() => {
+    sounder.playSound("start")
+})
+```
+
+### once(event,fn) -> Promise
+ - eventが発生すると、1回だけfnを実行します。
+ - fnがtrueを返す場合、もう一回イベントを監視します。
+ - Promiseを返すので、async/awaitで書くといい感じですね。
+ - 例(countの数だけ、停止音を変化させる。)
+```javascript
+slotModule.once('reelStop',()=>{
+    if(count > 0){
+        sounder.playSound('特殊停止音');
+        return true;
+    }
+})
+```
+ > 注意:fnにasyncな関数を指定しないでください。  
+ > PromiseはTruthyであり、思わぬ結果が生じる場合があります。  
+ > 多くの場合、onceの呼び出しでasyncを使うことは、良くない実装であり、  
+ > 呼び出し元でawaitを使うことで済む場合がほとんどです。
+
+### emit(event,arg)
+ - イベント「event」を発火します。
+ - 引数としてargを送ることができます。
+ - 自作イベントとかを定義するときに役に立つでしょう。
+ - サンプルだとbonusEndが自作イベントとして定義されています。
+
+
+## SlotModuleのイベント一覧
+| イベント名 | 発火タイミング |引数|
+| ---------- | ------------- | -- |
+|pressStop | いずれかの停止ボタンが押されたときに発火します。リール停止の有効無効は問いません。(オールマイティーで押されたときにも発火します)| -- |
+|pressStop1|pressStopの左リール限定バージョン| -- |
+|pressStop2|中リール| -- |
+|pressStop3|右リール| -- |
+|pressAllmity|オールマイティーキーが押されたときに発火します。(デフォルトでは上キー)<br>有効無効は問いません| -- |
+|pressBet|ベットボタンが押されたときに発火します。有効無効は問いません。<br>(オールマイティーで押されたときにも発火します)| -- |
+|pressLever|レバーボタンが押されたときに発火します。有効無効は問いません。<br>(オールマイティーで押されたときにも発火します)| -- |
+|reelStop|リールが停止したときに呼ばれます。|`idx:押されたリール, `<br>`count:まだ回転しているリールの数`|
+|resourceLoaded|画像リソースの読み込み完了時に発火します。多分使う機会はない| `stage:描画範囲のstageオブジェクト`|
+|reelStart|リール変動が開始したときに発火します。| -- |
+|allReelStop|すべてのリールが停止したときに発火します。| `onHitCheckで返されるデータ` |
+|payEnd|払い出し演出が終了したときに発火します。|
+|bet|ベットが完了したときに呼ばれます。| `coin:ベット枚数`|
+|leverOn|レバーオン時に呼ばれます| -- |
+
+## Sounderで用意されている関数
+### addFile(file, tag, loopStart)
+ - タグにtagを設定しfileを読み込み待ちキューに追加します。
+ - mp3かwavが無難です。ほかも再生できるかもしれませんが、再生できないブラウザもあるかもしれません。
+ - loopStartに時間(s)を指定することで、ループ開始位置を設定することができます。
+ - addTag(tag)をつなげることで、複数のタグを設定することができます。
+
+### setVolume(tag,volume)
+ - タグにtagを含むサウンドの音量を調節します。
+ - 最大が1、最小が0です。
+
+### setMasterVolume(volume)
+ - マスターボリュームをvolumeに設定します。
+
+### playSound(tag, isLoop, callback) -> Promise
+ - タグにtagを含むサウンドをすべて再生します。
+ - isLoopにtrueを指定することで、ループ再生を行います。
+ - isLoopがfalseの場合、コールバックを指定することができます。
+ - また、コールバックの代わりにPromiseを使用することもできます。
+
+### stopSound(tag)
+ - タグにtagを含むサウンドをすべて停止させます。
+
+### サンプル
+ - サウンドを3つ読み込み、順番に再生します。
+```javascript
+
+const sounder = new Sounder();
+sounder.addFile('1.mp3','sound1');
+sounder.addFile('2.mp3','sound2');
+sounder.addFile('3.mp3','sound3');
+
+const Play = async()=>{
+    await sounder.playSound('sound1');
+    await sounder.playSound('sound2');
+    await sounder.playSound('sound3');
+}
+
+Play();
+```
+
 ## 便利関数
 ### Sleep(ms)
  - msミリ秒停止します。async関数なのでawaitと一緒に使おうね
