@@ -59,8 +59,10 @@ class SaveData {
         this.allPlayCount++;
         this.coinLog.push(-betCoin);
     }
-    static load() {
-        return new SaveData(JSON.parse(localStorage.getItem("savedata") || "{}"))
+    load() {
+        let d = new SaveData(JSON.parse(localStorage.getItem("savedata") || "{}"));
+        Object.assign(this, d);
+        return
     }
     save() {
         localStorage.setItem('savedata', JSON.stringify(this));

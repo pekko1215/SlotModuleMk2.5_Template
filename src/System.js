@@ -4,9 +4,9 @@
  * 払い出し時のゲームモード移行などのアクションを定義する。
  */
 
-const SystemDefine = ({ slotModule, saveData }) => {
-
-    let { flashController, slotStatus } = slotModule;
+const SystemDefine = (slotHandler) => {
+    const { slotModule } = slotHandler;
+    const { flashController, slotStatus } = slotModule;
 
     slotModule.RTdata = new DefaultRTClass;
 
@@ -45,14 +45,14 @@ const SystemDefine = ({ slotModule, saveData }) => {
                         case 'BIG1':
                         case 'BIG2':
                         case 'BIG3':
-                            saveData.bonusStart('BIG');
+                            slotHandler.saveData.bonusStart('BIG');
                             bonusData = new BonusData.BigBonus4('BIG', 30, 3);
                             bonusFlag = null;
                             sounder.playSound('big', true);
                             break
                         case 'REG':
                             sounder.playSound('reg', true)
-                            saveData.bonusStart('REG');
+                            slotHandler.saveData.bonusStart('REG');
                             bonusData = new BonusData.RegularBonus4('REG', 8, 8);
                             bonusFlag = null;
 
@@ -95,7 +95,7 @@ const SystemDefine = ({ slotModule, saveData }) => {
          * と呼び出してください。
          */
 
-        saveData.bonusEnd();
+        slotHandler.saveData.bonusEnd();
         sounder.stopSound("bgm")
         setGamemode("normal");
         slotModule.freeze();
@@ -142,8 +142,8 @@ const SystemDefine = ({ slotModule, saveData }) => {
         changeBonusSeg();
         while (betCoin--) {
             sounder.playSound("bet")
-            saveData.coin--;
-            saveData.inCoin++;
+            slotHandler.saveData.coin--;
+            slotHandler.saveData.inCoin++;
             changeCredit(-1);
             await Sleep(70);
         }
@@ -167,10 +167,10 @@ const SystemDefine = ({ slotModule, saveData }) => {
         }
         // SlotLog('payStart');
         while (pays--) {
-            saveData.coin++;
+            slotHandler.saveData.coin++;
             payCount++;
-            saveData.outCoin++;
-            saveData.coinLog[saveData.coinLog.length - 1]++;
+            slotHandler.saveData.outCoin++;
+            slotHandler.saveData.coinLog[slotHandler.saveData.coinLog.length - 1]++;
             changeCredit(1);
             Segments.payseg.setSegments(payCount)
             await Sleep(90);
@@ -281,25 +281,7 @@ const SystemDefine = ({ slotModule, saveData }) => {
         changeBonusSeg();
     })
     window.leverEffect = null;
-    window.sounder = new Sounder();
 
-    // SE
-    sounder.addFile("sound/stop.mp3", "stop").addTag("se");
-    sounder.addFile("sound/syoto.mp3", "syoto").addTag("se");
-    sounder.addFile("sound/yokoku.mp3", "yokoku").addTag("se");
-    sounder.addFile("sound/start.mp3", "start").addTag("se");
-    sounder.addFile("sound/pay.mp3", "pay").addTag("se");
-    sounder.addFile("sound/replay.mp3", "replay").addTag("se");
-    sounder.addFile("sound/bet.mp3", "bet").addTag("se");
-
-
-    // BGM
-    sounder.addFile("sound/big.mp3", "big").addTag("bgm").setVolume(0.4);
-    sounder.addFile('sound/reg.mp3', 'reg', 11.664).addTag('bgm').setVolume(0.4)
-
-
-
-    sounder.setMasterVolume(0.5)
 
     window.gameMode = 'normal';
     let bonusFlag = null
@@ -309,7 +291,7 @@ const SystemDefine = ({ slotModule, saveData }) => {
     slotModule.on("leverOn", function() {
         // レバーオン時の処理
         // セーブデータの更新を行う
-        saveData.nextGame(slotModule.slotStatus.betCoin);
+        slotHandler.saveData.nextGame(slotModule.slotStatus.betCoin);
         changeCredit(0)
     })
 
@@ -364,11 +346,12 @@ const SystemDefine = ({ slotModule, saveData }) => {
         if (credit > 50) {
             credit = 50;
         }
+        console.log(slotHandler)
         $(".GameData").html(`
-            差枚数:${saveData.coin}枚<br>
-            ゲーム数:${saveData.playCount}G<br>
-            総ゲーム数:${saveData.allPlayCount}G<br>
-            機械割:${(''+saveData.percentage).slice(0,5)}%<br>
+            差枚数:${slotHandler.saveData.coin}枚<br>
+            ゲーム数:${slotHandler.saveData.playCount}G<br>
+            総ゲーム数:${slotHandler.saveData.allPlayCount}G<br>
+            機械割:${(''+slotHandler.saveData.percentage).slice(0,5)}%<br>
         `)
         Segments.creditseg.setSegments(credit)
     }

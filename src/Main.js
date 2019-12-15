@@ -7,7 +7,7 @@ class SlotHandler {
 
 const Main = async() => {
 
-    const slotModule = await ControlRerquest("data/control.smr");
+    const slotModule = await ControlRerquest("src/datas/RCD/control.smr");
     const saveData = new SaveData({});
 
 
@@ -17,6 +17,8 @@ const Main = async() => {
     SystemDefine(slotHandler);
     EffectDefine(slotHandler);
     UIDefine(slotHandler);
+
+    window.slotHandler = slotHandler;
 }
 
 const SL = [];

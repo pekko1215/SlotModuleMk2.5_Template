@@ -1,12 +1,12 @@
 const UIDefine = (slotHandler) => {
-    const { slotModule, saveData } = slotHandler;
+    const { saveData, slotModule } = slotHandler;
 
     const Save = () => {
         saveData.save();
     }
 
     const Load = () => {
-        slotHandler.saveData = SaveData.load();
+        saveData.load();
     }
 
     const ClearData = () => {
@@ -34,5 +34,15 @@ const UIDefine = (slotHandler) => {
     $(window).bind("unload", function() {
         Save();
     });
+
+
+    let lastTouch = 0;
+    document.addEventListener('touchend', event => {
+        const now = window.performance.now();
+        if (now - lastTouch <= 500) {
+            event.preventDefault();
+        }
+        lastTouch = now;
+    }, true);
     Load();
 }
