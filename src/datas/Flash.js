@@ -1,18 +1,7 @@
 /**
  * Created by pekko1215 on 2017/07/16.
  */
-function replaceMatrix(base, matrix, front, back) {
-    let out = JSON.parse(JSON.stringify(base));
-    matrix.forEach(function(m, i) {
-        m.forEach(function(g, j) {
-            if (g == 1) {
-                front && (out.front[i][j] = front);
-                back && (out.back[i][j] = back);
-            }
-        })
-    })
-    return out;
-}
+
 const ColorData = {
     DEFAULT_B: {
         color: 0xFFFFFF,
@@ -76,17 +65,17 @@ const FlashData = {
 }
 
 FlashData.Nabi = [
-    replaceMatrix(FlashData.default, [
+    ReplaceMatrix(FlashData.default, [
         [1, 0, 0],
         [0, 0, 0],
         [1, 0, 0]
     ], null, ColorData.SYOTO_B),
-    replaceMatrix(FlashData.default, [
+    ReplaceMatrix(FlashData.default, [
         [0, 1, 0],
         [0, 0, 0],
         [0, 1, 0]
     ], null, ColorData.SYOTO_B),
-    replaceMatrix(FlashData.default, [
+    ReplaceMatrix(FlashData.default, [
         [0, 0, 1],
         [0, 0, 0],
         [0, 0, 1]

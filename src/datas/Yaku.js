@@ -3,7 +3,7 @@
  */
 
 
-const dummnyLines = {
+const DummyFlash = {
     "中段": [
         [0, 0, 0],
         [1, 1, 1],
@@ -44,7 +44,7 @@ const YakuData = [{
             [3, 0, 0], // ボーナスゲーム
             [0, 0, 15] // JACゲーム
         ],
-        // flashLine: dummnyLines['中段']
+        // flashLine: DummyFlash['中段']
         // 有効にするとフラッシュラインを偽装できる(1ライン機用かな)
     }, {
         name: "ベル",

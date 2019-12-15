@@ -1,7 +1,7 @@
 /**
  * Created by pekko1215 on 2017/07/20.
  */
-const keyconfig = {
+const KeyConfig = {
     left: 37,
     center: 40,
     right: 39,

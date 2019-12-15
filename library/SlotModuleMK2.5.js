@@ -484,12 +484,12 @@ class SlotModuleMk2 extends SlotEventListener {
         this.viewController.app.view.addEventListener('touchstart', stopButtonSmart)
         this.viewController.app.view.addEventListener('mousedown', stopButtonPC)
 
-        let leftKeyListener = keyboard(keyconfig.left);
-        let centerKeyListener = keyboard(keyconfig.center);
-        let rightkeyListener = keyboard(keyconfig.right);
-        let betKeyListener = keyboard(keyconfig.bet);
-        let leverKeyListener = keyboard(keyconfig.lever);
-        let allKeyListener = keyboard(keyconfig.all);
+        let leftKeyListener = KeyBoard(KeyConfig.left);
+        let centerKeyListener = KeyBoard(KeyConfig.center);
+        let rightkeyListener = KeyBoard(KeyConfig.right);
+        let betKeyListener = KeyBoard(KeyConfig.bet);
+        let leverKeyListener = KeyBoard(KeyConfig.lever);
+        let allKeyListener = KeyBoard(KeyConfig.all);
 
         leftKeyListener.press = () => {
             this.emit('pressStop');
