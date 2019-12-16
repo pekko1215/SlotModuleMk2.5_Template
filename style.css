@@ -12,6 +12,7 @@ body {
     left: 118px;
     top: 39px;
     position: absolute;
+    z-index: 5;
 }
 
 #creditSegment {
@@ -82,7 +83,7 @@ th {
 }
 
 #panel {
-    z-index: 5;
+    z-index: 1;
     position: relative;
 }
 
