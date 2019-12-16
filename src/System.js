@@ -78,7 +78,7 @@ const SystemDefine = (slotHandler) => {
                 (async() => {
                 while (slotStatus.status !== 'beted') {
                     await flashController.setFlash(FlashData.default, 20);
-                    await flashController.setFlash(replaceMatrix(FlashData.default, flashMatrix, ColorData.LINE_F, null), 20)
+                    await flashController.setFlash(ReplaceMatrix(FlashData.default, flashMatrix, ColorData.LINE_F, null), 20)
                 }
             })();
         }
