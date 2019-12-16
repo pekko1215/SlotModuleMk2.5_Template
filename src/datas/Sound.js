@@ -1,5 +1,7 @@
 const sounder = new Sounder();
 
+// 使用SE：魔王魂
+
 // SE
 sounder.addFile("sound/stop.mp3", "stop").addTag("se");
 sounder.addFile("sound/syoto.mp3", "syoto").addTag("se");
