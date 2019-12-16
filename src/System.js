@@ -125,7 +125,7 @@ const SystemDefine = (slotHandler) => {
                 // JACゲームからボーナスゲームに移行したとき
                 if (isJacin && !bonusData.isJacin) {
                     sounder.stopSound('bgm');
-                    sounder.playSound('true', true)
+                    sounder.playSound('big', true)
                 }
             }
         }
